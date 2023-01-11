@@ -13,6 +13,7 @@ import ru.starosta.kursovaiya.entity.Logs;
 import ru.starosta.kursovaiya.entity.Task;
 import ru.starosta.kursovaiya.repository.LogsRepository;
 import ru.starosta.kursovaiya.repository.TaskRepository;
+import ru.starosta.kursovaiya.service.LogsService;
 
 import java.util.Optional;
 
@@ -24,6 +25,9 @@ public class TaskController {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private LogsService logsService;
 //    @Autowired
 //    private LogsRepository logsRepository;
     @GetMapping("/list")
@@ -31,7 +35,7 @@ public class TaskController {
         log.info("/list -> connection");
         ModelAndView mav = new ModelAndView("list-tasks");
         mav.addObject("tasks", taskRepository.findAll());
-
+        logsService.saveLog("get list of tasks");
 //        Logs logs = new Logs();
 //        logs.setDescribe("get all students");
 //        logs.setUser_id(userDto.getId());
@@ -44,7 +48,7 @@ public class TaskController {
         ModelAndView mav = new ModelAndView("add-task-form");
         Task task = new Task();
         mav.addObject("task", task);
-
+        logsService.saveLog("add task");
 //        UserDto user = new UserDto();
 //        Logs logs = new Logs();
 //        logs.setDescribe("add object student form");
@@ -56,6 +60,7 @@ public class TaskController {
     @PostMapping("/saveTask")
     public String saveTask(@ModelAttribute Task task){
         taskRepository.save(task);
+        logsService.saveLog("save task in database");
         return "redirect:/list";
     }
 
@@ -71,12 +76,14 @@ public class TaskController {
             task = optionalTask.get();
         }
         mav.addObject("task", task);
+        logsService.saveLog("show update form 'add-task-form'");
         return mav;
     }
 
     @GetMapping("/deleteTask")
     public String deleteTask(@RequestParam Long taskId){
         taskRepository.deleteById(taskId);
+        logsService.saveLog("delete task from database");
         return "redirect:/list";
     }
 }

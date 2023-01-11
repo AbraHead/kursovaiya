@@ -1,5 +1,6 @@
 package ru.starosta.kursovaiya.service;
 
+import lombok.extern.java.Log;
 import ru.starosta.kursovaiya.entity.Role;
 import ru.starosta.kursovaiya.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,14 @@ import ru.starosta.kursovaiya.repository.RoleRepository;
 import ru.starosta.kursovaiya.repository.UserRepository;
 import ru.starosta.kursovaiya.entity.Logs;
 
+//import ru.starosta.kursovaiya.service.LogsServiceImpl.*;
+import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.List;
+
+//import static ru.starosta.kursovaiya.service.LogsServiceImpl.saveLog;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,6 +50,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);
+
     }
 
     @Override
